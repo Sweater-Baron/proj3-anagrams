@@ -16,25 +16,13 @@ have different anagrams.
 
 ## Authors 
 
-Initial version by M Young; to be revised by CIS 399se students. 
-
-## Status
-
-This is the 'skeleton' version for a CIS 322 project.  It uses conventional 
-interaction through a form, interacting only when the user submits the form. 
-Assignment is to replace the interaction with AJAX interaction on each 
-keystroke. 
-
-## Minijax? 
-
-flask_minijax.py and templates/minijax.html are a tiny example of using JQuery 
-with flask for an Ajax application.  (To be deleted in revised version of the project. 
-
+Initial version by M Young; revised by Alex Brandenfels.
 
 ## To run automated tests 
 * `nosetests`
 
 There are currently nose tests for vocab.py, letterbag.py, and jumble.py. 
 
+## IX url
 
-
+ix.cs.uoregon.edu/~god/public_html/CIS399/htbin/proj3-anagrams

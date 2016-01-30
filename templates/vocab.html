@@ -17,7 +17,7 @@
      src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 </script>
 
-<!-- Bootstrap stylesheet let's us have a 'responsive' layout; -->
+<!-- Bootstrap stylesheet lets us have a 'responsive' layout; -->
 <!-- 12 column grid rearranges itself for smaller screens or windows. -->
 
 <!-- per http://getbootstrap.com/getting-started/  -->
@@ -78,19 +78,61 @@
   </div> <!-- col -->
 </div> <!-- row -->
 <br />
+
 <div class="row">
   <div class="col-xs-6 text-center">
   <form id="entry" method="POST" action="/_check">
     <label for="attempt">Word:</label>
     <input id="attempt" name="attempt" type="text" width="15"
       autocomplete="off"  autofocus />
-    <input type="submit" name="try" />
   </form>
 </div></div>
 
+<p id="response"> </p>  <!-- JavaScript will insert text here -->
+<p id="how_many_left"> </p>  <!-- JavaScript will insert text here -->
+
+<script>
+
+// Suppress normal form submission
+$("#entry").submit( function(event) {
+   event.preventDefault();
+  });
+
+// On each keystroke, ask the server whether the current 
+// word is long enough. 
+// (We use 'keyup' because the form value
+// is updated before that event is generated.  keypress doesn't work.)
+//
+$("#attempt").keyup(function() {
+   var txt = $("#attempt").val();
+   $.getJSON( "/_check", { attempt: txt },
+              function(data) {
+                userWon = data.result.user_won;
+                console.log("user_won: " + userWon);
+                if (userWon) {
+                   // Redirect to success page
+                   window.location="/success";
+                }
+                else {
+                    resetBox = data.result.reset_box;
+                    console.log("good_attempt: " + resetBox);
+                    if (resetBox) {
+                       // Empty the text box
+                       $("#attempt").val("");
+                    }
+                    responseMsg = data.result.message;
+                    $("#response").html(responseMsg);
+                    howManyMsg = data.result.how_many_msg;
+                    $("#how_many_left").html(howManyMsg);
+                }
+              }
+           );
+   });
+</script>
+
 <br />
 
-{% if session.matches|length is not equalto 0  %}
+{% if session.matches|length != 0  %}
 <h2>You found </h2>
 <p id="results">
   {% for match in session.matches %}
